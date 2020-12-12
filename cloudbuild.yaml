@@ -1,0 +1,40 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  id: 'Build'
+  args: ["build", "-t", "$_IMAGE_NAME:$_IMAGE_VERSION", ".", "-f", "$_DOCKERFILE_PATH"]
+- name: 'gcr.io/cloud-builders/docker'
+  id: 'Push'
+  args: ["push", "$_IMAGE_NAME:$_IMAGE_VERSION"]
+- name: 'gcr.io/cloud-builders/gke-deploy'
+  id: 'Prepare deploy'
+  args:
+  - 'prepare'
+  - '--filename=$_K8S_YAML_PATH'
+  - '--image=$_IMAGE_NAME:$_IMAGE_VERSION'
+  - '--app=$_K8S_APP_NAME'
+  - '--version=$_IMAGE_VERSION'
+  - '--namespace=$_K8S_NAMESPACE'
+  - '--output=output'
+  - '--annotation=gcb-build-id=$BUILD_ID'
+- name: 'gcr.io/cloud-builders/gke-deploy'
+  id: 'Apply deploy'
+  args:
+  - 'apply'
+  - '--filename=$_K8S_YAML_PATH'
+  - '--namespace=$_K8S_NAMESPACE'
+  - '--cluster=$_GKE_CLUSTER'
+  - '--location=$_GKE_LOCATION'
+images:
+- '$_IMAGE_NAME:$_IMAGE_VERSION'
+substitutions:
+  _DOCKERFILE_PATH: Dockerfile
+  _IMAGE_NAME: gcr.io/hit-and-try/gke-auto
+  _IMAGE_VERSION: 1.0.0
+  _GKE_CLUSTER: test-cluster
+  _GKE_LOCATION: us-west1-a
+  _K8S_YAML_PATH: kube.yaml
+  _K8S_APP_NAME: hello-world
+  _K8S_NAMESPACE: default
+options:
+  substitution_option: 'MUST_MATCH'
+tags: [$_K8S_APP_NAME']  
