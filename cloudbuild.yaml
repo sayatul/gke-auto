@@ -12,11 +12,11 @@ steps:
   args: ["apply", "-f", "$_KUBE_FILE"]
   env:
   - 'CLOUDSDK_COMPUTE_ZONE=us-central1-c'
-  - 'CLOUDSDK_CONTAINER_CLUSTER=ay-test-gke-auto-deploy'
+  - 'CLOUDSDK_CONTAINER_CLUSTER=gke-auto'
 
 images:
 - '$_IMAGE_NAME:$_IMAGE_VERSION'
 substitutions:
-  _IMAGE_NAME: gcr.io/fulfil-qa/gke-auto-deploy-test
+  _IMAGE_NAME: gcr.io/hit-and-try/gke-auto
   _IMAGE_VERSION: 1.0.0
   _KUBE_FILE: kube.yaml
