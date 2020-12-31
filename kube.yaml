@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: hello-world
 spec:
-  replicas: 1
+  replicas: 4
   selector:
     matchLabels:
       app: hello-world
@@ -16,3 +16,8 @@ spec:
       - name: hello-world 
         image: gcr.io/hit-and-try/gke-auto
         imagePullPolicy: Always
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 0%
