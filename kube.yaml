@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: hello-world 
-        image: gcr.io/hit-and-try/gke-auto
+        image: gcr.io/hit-and-try/gke-auto:1.0.0
         imagePullPolicy: Always
   strategy:
     type: RollingUpdate
