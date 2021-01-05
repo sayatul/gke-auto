@@ -18,5 +18,5 @@ images:
 - '$_IMAGE_NAME:$_IMAGE_VERSION'
 substitutions:
   _IMAGE_NAME: gcr.io/hit-and-try/gke-auto
-  _IMAGE_VERSION: 1.0.0
+  _IMAGE_VERSION: 2.0.0
   _KUBE_FILE: kube.yaml
