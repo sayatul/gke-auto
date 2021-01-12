@@ -7,9 +7,9 @@ steps:
   id: 'Push'
   args: ["push", "$_IMAGE_NAME:$_IMAGE_VERSION"]
 
-- name: 'gcr.io/cloud-builders/kubectl'
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
   id: 'Deploy'
-  args: ["apply", "-f", "$_KUBE_FILE"]
+  args: ["kubectl", "apply", "-f", "$_KUBE_FILE"]
   env:
   - 'CLOUDSDK_COMPUTE_ZONE=us-central1-c'
   - 'CLOUDSDK_CONTAINER_CLUSTER=gke-auto'
